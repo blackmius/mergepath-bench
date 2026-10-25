@@ -18,4 +18,4 @@ for mode in ("alloc", "prealloc"):
         for i in impls:
             print(f"| {i} | " + " | ".join(f"{d[(base,ths[0])]/d[(i,t)]:.2f}x" if (i,t) in d else "-" for t in ths) + " |")
     print()
-print("_Go rows use GOMAXPROCS=t. \"(user)\" rows run the original algorithm; \"FAST\" rows use fused splits + branchless 2-chain kernel (same design as the Nim FAST). In the preallocated table, Go (user) rows use mergePathInto = original mergePath with caller-provided destination._")
+print("_Go rows use GOMAXPROCS=t. \"(user)\" rows run the original algorithm; \"FAST\" rows use fused splits + branchless 2-chain kernel (same design as the Nim FAST). In the preallocated table, Go (user) rows use mergePathInto = original mergePath with caller-provided destination. `seq-*` / `pool-*` rows are the nimony build, using std/threadpool + .passive tasks._")

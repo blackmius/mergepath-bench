@@ -36,7 +36,10 @@ proc cspMonitor(data: pointer): pointer {.noconv, exportc: "csp_monitor".} =
         p = nxt
 
     if not polledNet and not polledTimer:
-      discard usleep(uint32(duration))
+      # `usleep` takes `Useconds`, which is `cuint` on amd64 but `int` on
+      # aarch64 (`posix_other.nim`). Convert to the declared type rather than
+      # assuming `uint32`; a bare `uint32` fails to type-check on arm64.
+      discard usleep(Useconds(duration))
       duration = duration * 2
       if duration > MonitorMaxSleepMicrosecs:
         duration = MonitorMaxSleepMicrosecs

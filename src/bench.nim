@@ -1,6 +1,12 @@
 import std/[random, algorithm, monotimes, strutils, parseopt, os]
 import malebolgia
-import csp, mp_csp   # mp_csp re-exports mpcore
+when defined(amd64):
+  # `mp_csp` re-exports `mpcore`. nimcsp's context switch is hand-written
+  # x86-64 asm (see vendor/nimcsp/portable/README.md), so its rows only exist
+  # there; other hosts get the kernels straight from `mpcore`.
+  import csp, mp_csp
+else:
+  import mpcore
 {.push checks:off, boundChecks:off, overflowChecks:off.}
 
 proc now(): int64 = getMonotime().ticks
@@ -58,30 +64,29 @@ proc mbFast(a, b: P, alen, blen: int, dst: P, parts: int) =
       master.spawn mergePart(a, b, dst, alen, blen, c, parts)
 
 # ---- faithful nimcsp port of the baseline (seq splits, branchy kernel) ---
-type PT = object
-  core, cores: int
-  a, b, sp, dst: P
-  alen, blen: int
-  wg: ptr WaitGroupT
-var portWg: WaitGroupT
-proc portWorker(arg: pointer) {.cdecl.} =
-  let t = cast[ptr PT](arg)
-  worker(t.core, t.cores, t.a, t.b, t.sp, t.dst, t.alen, t.blen, t.alen + t.blen)
-  wgDone(t.wg[])
-proc cspPort(a, b: P, alen, blen: int, dst: P, cores: int) =
-  var splits = newSeqUninitialized[int](cores*2 + 2)
-  let sp = cast[P](addr splits[0])
-  findSplits(a, b, alen, blen, cores, sp)
-  var ts = newSeq[PT](cores)
-  wgInit(portWg); wgAdd(portWg, cores)
-  for c in 0 ..< cores:
-    ts[c] = PT(core: c, cores: cores, a: a, b: b, sp: sp, dst: dst, alen: alen, blen: blen, wg: addr portWg)
-    discard cspProcCreate(0, portWorker, addr ts[c])
-  wgWait(portWg)
-  os.sleep(0)   # (port is only a timing reference)
+when defined(amd64):
+  type PT = object
+    core, cores: int
+    a, b, sp, dst: P
+    alen, blen: int
+    wg: ptr WaitGroupT
+  var portWg: WaitGroupT
+  proc portWorker(arg: pointer) {.cdecl.} =
+    let t = cast[ptr PT](arg)
+    worker(t.core, t.cores, t.a, t.b, t.sp, t.dst, t.alen, t.blen, t.alen + t.blen)
+    wgDone(t.wg[])
+  proc cspPort(a, b: P, alen, blen: int, dst: P, cores: int) =
+    var splits = newSeqUninitialized[int](cores*2 + 2)
+    let sp = cast[P](addr splits[0])
+    findSplits(a, b, alen, blen, cores, sp)
+    var ts = newSeq[PT](cores)
+    wgInit(portWg); wgAdd(portWg, cores)
+    for c in 0 ..< cores:
+      ts[c] = PT(core: c, cores: cores, a: a, b: b, sp: sp, dst: dst, alen: alen, blen: blen, wg: addr portWg)
+      discard cspProcCreate(0, portWorker, addr ts[c])
+    wgWait(portWg)
+    os.sleep(0)   # (port is only a timing reference)
 {.pop.}
-
-proc fixPort() = discard
 
 when isMainModule:
   var n = 10 * 1024 * 1024
@@ -96,26 +101,27 @@ when isMainModule:
     of "r": reps = parseInt(val)
     of "p": prealloc = true
     else: discard
-  cspInit(t + 1)
+  when defined(amd64):
+    cspInit(t + 1)
 
-  # ---- correctness on edge cases (small / empty / duplicates / disjoint) ----
-  block:
-    randomize(7)
-    for (la, lb, mx) in [(0,0,1),(0,5,10),(7,0,10),(1,1,1),(3,100,2),(100,3,2),(1000,1000,5),(257,1031,1_000_000),(500,500,1)]:
-      for parts in [1, 2, 3, 7, 16, 64]:
-        var a = newSeq[int](la); var b = newSeq[int](lb)
-        for i in 0 ..< la: a[i] = rand(mx)
-        for i in 0 ..< lb: b[i] = rand(mx)
-        a.sort(); b.sort()
-        var expect = a & b
-        expect.sort()
-        doAssert mergePathCsp(a, b, parts) == expect, "csp mismatch " & $(la, lb, mx, parts)
-    # disjoint ranges (all a < all b and vice versa)
-    var lo = newSeq[int](100_000); var hi = newSeq[int](100_000)
-    for i in 0 ..< lo.len: lo[i] = i; hi[i] = i + 1_000_000
-    doAssert mergePathCsp(lo, hi, 5) == lo & hi
-    doAssert mergePathCsp(hi, lo, 5) == lo & hi
-    echo "correctness: all edge cases OK"
+    # ---- correctness on edge cases (small / empty / duplicates / disjoint) ----
+    block:
+      randomize(7)
+      for (la, lb, mx) in [(0,0,1),(0,5,10),(7,0,10),(1,1,1),(3,100,2),(100,3,2),(1000,1000,5),(257,1031,1_000_000),(500,500,1)]:
+        for parts in [1, 2, 3, 7, 16, 64]:
+          var a = newSeq[int](la); var b = newSeq[int](lb)
+          for i in 0 ..< la: a[i] = rand(mx)
+          for i in 0 ..< lb: b[i] = rand(mx)
+          a.sort(); b.sort()
+          var expect = a & b
+          expect.sort()
+          doAssert mergePathCsp(a, b, parts) == expect, "csp mismatch " & $(la, lb, mx, parts)
+      # disjoint ranges (all a < all b and vice versa)
+      var lo = newSeq[int](100_000); var hi = newSeq[int](100_000)
+      for i in 0 ..< lo.len: lo[i] = i; hi[i] = i + 1_000_000
+      doAssert mergePathCsp(lo, hi, 5) == lo & hi
+      doAssert mergePathCsp(hi, lo, 5) == lo & hi
+      echo "correctness: all edge cases OK"
 
   randomize(12345)
   var a = newSeq[int](n); var b = newSeq[int](n)
@@ -150,6 +156,7 @@ when isMainModule:
   discard run("seq 2-chain kernel", proc(d: P) = kTwo(ap, bp, 0, n, 0, n, d))
   discard run("malebolgia (user)", proc(d: P) = mbUser(ap, bp, n, n, d, t))
   discard run("malebolgia + fast", proc(d: P) = mbFast(ap, bp, n, n, d, t))
-  discard run("nimcsp port", proc(d: P) = cspPort(ap, bp, n, n, d, t))
-  discard run("nimcsp FAST", proc(d: P) = mergePathCsp(ap, bp, d, n, n, t))
-  discard run("nimcsp FAST x4 parts", proc(d: P) = mergePathCsp(ap, bp, d, n, n, 4*t))
+  when defined(amd64):
+    discard run("nimcsp port", proc(d: P) = cspPort(ap, bp, n, n, d, t))
+    discard run("nimcsp FAST", proc(d: P) = mergePathCsp(ap, bp, d, n, n, t))
+    discard run("nimcsp FAST x4 parts", proc(d: P) = mergePathCsp(ap, bp, d, n, n, 4*t))
