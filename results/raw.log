@@ -1,0 +1,198 @@
+n=10485760 per array, tasks/threads t=1, reps=15, dst allocation INCLUDED
+seq (user baseline)    min    69.7 ms   median    70.4 ms
+CSV,seq (user baseline),1,alloc,69.707,70.395
+seq 2-chain kernel     min    38.3 ms   median    39.3 ms
+CSV,seq 2-chain kernel,1,alloc,38.337,39.297
+malebolgia (user)      min    68.5 ms   median    71.5 ms
+CSV,malebolgia (user),1,alloc,68.550,71.517
+malebolgia + fast      min    37.1 ms   median    40.7 ms
+CSV,malebolgia + fast,1,alloc,37.105,40.743
+n=10485760 per array, tasks/threads t=1, reps=15, dst PREALLOCATED
+seq (user baseline)    min    53.2 ms   median    54.2 ms
+CSV,seq (user baseline),1,prealloc,53.160,54.178
+seq 2-chain kernel     min    20.2 ms   median    20.9 ms
+CSV,seq 2-chain kernel,1,prealloc,20.241,20.914
+malebolgia (user)      min    53.6 ms   median    54.2 ms
+CSV,malebolgia (user),1,prealloc,53.552,54.209
+malebolgia + fast      min    19.9 ms   median    20.4 ms
+CSV,malebolgia + fast,1,prealloc,19.897,20.360
+mergepath: n=10485760 per array, parts/threads=1, reps=15, dst allocation INCLUDED
+seq-branchy        min 53.596 ms    median 54.734 ms
+CSV,seq-branchy,1,alloc,53.596,54.734,-5053362195370328894
+seq-2chain         min 20.526 ms    median 21.074 ms
+CSV,seq-2chain,1,alloc,20.526,21.074,-5053362195370328894
+pool-branchy       min 53.600 ms    median 54.258 ms
+CSV,pool-branchy,1,alloc,53.600,54.258,-5053362195370328894
+pool-fast          min 20.627 ms    median 21.299 ms
+CSV,pool-fast,1,alloc,20.627,21.299,-5053362195370328894
+pool-fast-x4       min 20.774 ms    median 21.160 ms
+CSV,pool-fast-x4,1,alloc,20.774,21.160,-5053362195370328894
+mergepath: n=10485760 per array, parts/threads=1, reps=15, dst PREALLOCATED
+seq-branchy        min 53.344 ms    median 54.544 ms
+CSV,seq-branchy,1,prealloc,53.344,54.544,-5053362195370328894
+seq-2chain         min 20.400 ms    median 21.021 ms
+CSV,seq-2chain,1,prealloc,20.400,21.021,-5053362195370328894
+pool-branchy       min 54.020 ms    median 54.978 ms
+CSV,pool-branchy,1,prealloc,54.020,54.978,-5053362195370328894
+pool-fast          min 21.275 ms    median 21.833 ms
+CSV,pool-fast,1,prealloc,21.275,21.833,-5053362195370328894
+pool-fast-x4       min 20.826 ms    median 21.480 ms
+CSV,pool-fast-x4,1,prealloc,20.826,21.480,-5053362195370328894
+Go n=10485760 t=1 GOMAXPROCS=1 reps=15 mode=alloc
+go seq (user)              min    63.3 ms   median    64.5 ms
+CSV,go seq (user),1,alloc,63.251,64.469
+go mergePath (user)        min    58.6 ms   median    59.9 ms
+CSV,go mergePath (user),1,alloc,58.590,59.894
+go seq 2-chain kernel      min    24.6 ms   median    25.0 ms
+CSV,go seq 2-chain kernel,1,alloc,24.552,24.950
+go FAST (safe)             min    24.0 ms   median    24.9 ms
+CSV,go FAST (safe),1,alloc,24.014,24.892
+go FAST (unsafe)           min    22.5 ms   median    22.9 ms
+CSV,go FAST (unsafe),1,alloc,22.452,22.929
+go FAST x4 parts (unsafe)  min    22.7 ms   median    23.3 ms
+CSV,go FAST x4 parts (unsafe),1,alloc,22.702,23.272
+Go n=10485760 t=1 GOMAXPROCS=1 reps=15 mode=prealloc
+go seq (user)              min    57.6 ms   median    58.6 ms
+CSV,go seq (user),1,prealloc,57.603,58.640
+go mergePath (user)        min    57.2 ms   median    58.7 ms
+CSV,go mergePath (user),1,prealloc,57.221,58.725
+go seq 2-chain kernel      min    22.8 ms   median    23.2 ms
+CSV,go seq 2-chain kernel,1,prealloc,22.807,23.218
+go FAST (safe)             min    22.7 ms   median    23.5 ms
+CSV,go FAST (safe),1,prealloc,22.681,23.496
+go FAST (unsafe)           min    21.6 ms   median    22.0 ms
+CSV,go FAST (unsafe),1,prealloc,21.572,22.013
+go FAST x4 parts (unsafe)  min    21.2 ms   median    21.9 ms
+CSV,go FAST x4 parts (unsafe),1,prealloc,21.226,21.924
+n=10485760 per array, tasks/threads t=2, reps=15, dst allocation INCLUDED
+seq (user baseline)    min    68.8 ms   median    71.7 ms
+CSV,seq (user baseline),2,alloc,68.774,71.655
+seq 2-chain kernel     min    39.0 ms   median    40.1 ms
+CSV,seq 2-chain kernel,2,alloc,38.991,40.140
+malebolgia (user)      min    35.8 ms   median    36.6 ms
+CSV,malebolgia (user),2,alloc,35.839,36.618
+malebolgia + fast      min    18.3 ms   median    18.6 ms
+CSV,malebolgia + fast,2,alloc,18.315,18.609
+n=10485760 per array, tasks/threads t=2, reps=15, dst PREALLOCATED
+seq (user baseline)    min    54.4 ms   median    55.2 ms
+CSV,seq (user baseline),2,prealloc,54.448,55.198
+seq 2-chain kernel     min    20.5 ms   median    21.1 ms
+CSV,seq 2-chain kernel,2,prealloc,20.474,21.149
+malebolgia (user)      min    27.4 ms   median    27.8 ms
+CSV,malebolgia (user),2,prealloc,27.438,27.756
+malebolgia + fast      min    10.5 ms   median    10.6 ms
+CSV,malebolgia + fast,2,prealloc,10.542,10.625
+mergepath: n=10485760 per array, parts/threads=2, reps=15, dst allocation INCLUDED
+seq-branchy        min 54.053 ms    median 55.515 ms
+CSV,seq-branchy,2,alloc,54.053,55.515,-5053362195370328894
+seq-2chain         min 20.965 ms    median 21.549 ms
+CSV,seq-2chain,2,alloc,20.965,21.549,-5053362195370328894
+pool-branchy       min 28.174 ms    median 28.794 ms
+CSV,pool-branchy,2,alloc,28.174,28.794,-5053362195370328894
+pool-fast          min 11.011 ms    median 11.458 ms
+CSV,pool-fast,2,alloc,11.011,11.458,-5053362195370328894
+pool-fast-x4       min 10.909 ms    median 11.581 ms
+CSV,pool-fast-x4,2,alloc,10.909,11.581,-5053362195370328894
+mergepath: n=10485760 per array, parts/threads=2, reps=15, dst PREALLOCATED
+seq-branchy        min 54.098 ms    median 55.307 ms
+CSV,seq-branchy,2,prealloc,54.098,55.307,-5053362195370328894
+seq-2chain         min 20.922 ms    median 21.497 ms
+CSV,seq-2chain,2,prealloc,20.922,21.497,-5053362195370328894
+pool-branchy       min 28.183 ms    median 28.820 ms
+CSV,pool-branchy,2,prealloc,28.183,28.820,-5053362195370328894
+pool-fast          min 11.283 ms    median 11.803 ms
+CSV,pool-fast,2,prealloc,11.283,11.803,-5053362195370328894
+pool-fast-x4       min 10.929 ms    median 11.605 ms
+CSV,pool-fast-x4,2,prealloc,10.929,11.605,-5053362195370328894
+Go n=10485760 t=2 GOMAXPROCS=2 reps=15 mode=alloc
+go seq (user)              min    64.0 ms   median    65.5 ms
+CSV,go seq (user),2,alloc,63.964,65.489
+go mergePath (user)        min    30.8 ms   median    31.4 ms
+CSV,go mergePath (user),2,alloc,30.848,31.419
+go seq 2-chain kernel      min    24.7 ms   median    25.2 ms
+CSV,go seq 2-chain kernel,2,alloc,24.710,25.231
+go FAST (safe)             min    13.3 ms   median    13.4 ms
+CSV,go FAST (safe),2,alloc,13.280,13.448
+go FAST (unsafe)           min    12.5 ms   median    12.7 ms
+CSV,go FAST (unsafe),2,alloc,12.506,12.706
+go FAST x4 parts (unsafe)  min    12.5 ms   median    12.7 ms
+CSV,go FAST x4 parts (unsafe),2,alloc,12.495,12.739
+Go n=10485760 t=2 GOMAXPROCS=2 reps=15 mode=prealloc
+go seq (user)              min    59.0 ms   median    59.2 ms
+CSV,go seq (user),2,prealloc,58.962,59.214
+go mergePath (user)        min    29.7 ms   median    30.4 ms
+CSV,go mergePath (user),2,prealloc,29.690,30.364
+go seq 2-chain kernel      min    23.5 ms   median    24.0 ms
+CSV,go seq 2-chain kernel,2,prealloc,23.482,24.049
+go FAST (safe)             min    12.0 ms   median    12.3 ms
+CSV,go FAST (safe),2,prealloc,11.988,12.285
+go FAST (unsafe)           min    11.2 ms   median    11.5 ms
+CSV,go FAST (unsafe),2,prealloc,11.179,11.488
+go FAST x4 parts (unsafe)  min    11.4 ms   median    11.7 ms
+CSV,go FAST x4 parts (unsafe),2,prealloc,11.433,11.699
+n=10485760 per array, tasks/threads t=4, reps=15, dst allocation INCLUDED
+seq (user baseline)    min    72.2 ms   median    72.9 ms
+CSV,seq (user baseline),4,alloc,72.172,72.919
+seq 2-chain kernel     min    40.1 ms   median    40.6 ms
+CSV,seq 2-chain kernel,4,alloc,40.146,40.645
+malebolgia (user)      min    20.4 ms   median    22.5 ms
+CSV,malebolgia (user),4,alloc,20.450,22.544
+malebolgia + fast      min    11.1 ms   median    12.7 ms
+CSV,malebolgia + fast,4,alloc,11.148,12.681
+n=10485760 per array, tasks/threads t=4, reps=15, dst PREALLOCATED
+seq (user baseline)    min    55.4 ms   median    56.1 ms
+CSV,seq (user baseline),4,prealloc,55.370,56.060
+seq 2-chain kernel     min    20.3 ms   median    21.2 ms
+CSV,seq 2-chain kernel,4,prealloc,20.340,21.159
+malebolgia (user)      min    15.1 ms   median    15.6 ms
+CSV,malebolgia (user),4,prealloc,15.073,15.569
+malebolgia + fast      min     5.9 ms   median     6.1 ms
+CSV,malebolgia + fast,4,prealloc,5.857,6.106
+mergepath: n=10485760 per array, parts/threads=4, reps=15, dst allocation INCLUDED
+seq-branchy        min 55.080 ms    median 56.272 ms
+CSV,seq-branchy,4,alloc,55.080,56.272,-5053362195370328894
+seq-2chain         min 21.355 ms    median 21.903 ms
+CSV,seq-2chain,4,alloc,21.355,21.903,-5053362195370328894
+pool-branchy       min 15.755 ms    median 16.379 ms
+CSV,pool-branchy,4,alloc,15.755,16.379,-5053362195370328894
+pool-fast          min 6.347 ms     median 6.783 ms
+CSV,pool-fast,4,alloc,6.347,6.783,-5053362195370328894
+pool-fast-x4       min 6.471 ms     median 6.822 ms
+CSV,pool-fast-x4,4,alloc,6.471,6.822,-5053362195370328894
+mergepath: n=10485760 per array, parts/threads=4, reps=15, dst PREALLOCATED
+seq-branchy        min 55.105 ms    median 56.348 ms
+CSV,seq-branchy,4,prealloc,55.105,56.348,-5053362195370328894
+seq-2chain         min 20.905 ms    median 21.747 ms
+CSV,seq-2chain,4,prealloc,20.905,21.747,-5053362195370328894
+pool-branchy       min 15.977 ms    median 16.494 ms
+CSV,pool-branchy,4,prealloc,15.977,16.494,-5053362195370328894
+pool-fast          min 6.318 ms     median 6.760 ms
+CSV,pool-fast,4,prealloc,6.318,6.760,-5053362195370328894
+pool-fast-x4       min 6.226 ms     median 7.116 ms
+CSV,pool-fast-x4,4,prealloc,6.226,7.116,-5053362195370328894
+Go n=10485760 t=4 GOMAXPROCS=4 reps=15 mode=alloc
+go seq (user)              min    65.3 ms   median    66.5 ms
+CSV,go seq (user),4,alloc,65.287,66.547
+go mergePath (user)        min    17.2 ms   median    17.8 ms
+CSV,go mergePath (user),4,alloc,17.199,17.805
+go seq 2-chain kernel      min    24.8 ms   median    25.3 ms
+CSV,go seq 2-chain kernel,4,alloc,24.764,25.259
+go FAST (safe)             min     7.5 ms   median     8.0 ms
+CSV,go FAST (safe),4,alloc,7.521,7.969
+go FAST (unsafe)           min     7.2 ms   median     7.6 ms
+CSV,go FAST (unsafe),4,alloc,7.249,7.639
+go FAST x4 parts (unsafe)  min     7.1 ms   median     7.6 ms
+CSV,go FAST x4 parts (unsafe),4,alloc,7.101,7.626
+Go n=10485760 t=4 GOMAXPROCS=4 reps=15 mode=prealloc
+go seq (user)              min    59.0 ms   median    60.6 ms
+CSV,go seq (user),4,prealloc,58.995,60.635
+go mergePath (user)        min    16.3 ms   median    16.6 ms
+CSV,go mergePath (user),4,prealloc,16.311,16.631
+go seq 2-chain kernel      min    22.9 ms   median    23.8 ms
+CSV,go seq 2-chain kernel,4,prealloc,22.864,23.767
+go FAST (safe)             min     6.3 ms   median     6.5 ms
+CSV,go FAST (safe),4,prealloc,6.346,6.539
+go FAST (unsafe)           min     6.0 ms   median     6.2 ms
+CSV,go FAST (unsafe),4,prealloc,5.996,6.162
+go FAST x4 parts (unsafe)  min     5.9 ms   median     6.2 ms
+CSV,go FAST x4 parts (unsafe),4,prealloc,5.928,6.180

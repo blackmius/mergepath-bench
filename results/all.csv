@@ -1,0 +1,91 @@
+impl,threads,mode,min_ms,median_ms
+seq (user baseline),1,alloc,69.707,70.395
+seq 2-chain kernel,1,alloc,38.337,39.297
+malebolgia (user),1,alloc,68.550,71.517
+malebolgia + fast,1,alloc,37.105,40.743
+seq (user baseline),1,prealloc,53.160,54.178
+seq 2-chain kernel,1,prealloc,20.241,20.914
+malebolgia (user),1,prealloc,53.552,54.209
+malebolgia + fast,1,prealloc,19.897,20.360
+seq-branchy,1,alloc,53.596,54.734
+seq-2chain,1,alloc,20.526,21.074
+pool-branchy,1,alloc,53.600,54.258
+pool-fast,1,alloc,20.627,21.299
+pool-fast-x4,1,alloc,20.774,21.160
+seq-branchy,1,prealloc,53.344,54.544
+seq-2chain,1,prealloc,20.400,21.021
+pool-branchy,1,prealloc,54.020,54.978
+pool-fast,1,prealloc,21.275,21.833
+pool-fast-x4,1,prealloc,20.826,21.480
+go seq (user),1,alloc,63.251,64.469
+go mergePath (user),1,alloc,58.590,59.894
+go seq 2-chain kernel,1,alloc,24.552,24.950
+go FAST (safe),1,alloc,24.014,24.892
+go FAST (unsafe),1,alloc,22.452,22.929
+go FAST x4 parts (unsafe),1,alloc,22.702,23.272
+go seq (user),1,prealloc,57.603,58.640
+go mergePath (user),1,prealloc,57.221,58.725
+go seq 2-chain kernel,1,prealloc,22.807,23.218
+go FAST (safe),1,prealloc,22.681,23.496
+go FAST (unsafe),1,prealloc,21.572,22.013
+go FAST x4 parts (unsafe),1,prealloc,21.226,21.924
+seq (user baseline),2,alloc,68.774,71.655
+seq 2-chain kernel,2,alloc,38.991,40.140
+malebolgia (user),2,alloc,35.839,36.618
+malebolgia + fast,2,alloc,18.315,18.609
+seq (user baseline),2,prealloc,54.448,55.198
+seq 2-chain kernel,2,prealloc,20.474,21.149
+malebolgia (user),2,prealloc,27.438,27.756
+malebolgia + fast,2,prealloc,10.542,10.625
+seq-branchy,2,alloc,54.053,55.515
+seq-2chain,2,alloc,20.965,21.549
+pool-branchy,2,alloc,28.174,28.794
+pool-fast,2,alloc,11.011,11.458
+pool-fast-x4,2,alloc,10.909,11.581
+seq-branchy,2,prealloc,54.098,55.307
+seq-2chain,2,prealloc,20.922,21.497
+pool-branchy,2,prealloc,28.183,28.820
+pool-fast,2,prealloc,11.283,11.803
+pool-fast-x4,2,prealloc,10.929,11.605
+go seq (user),2,alloc,63.964,65.489
+go mergePath (user),2,alloc,30.848,31.419
+go seq 2-chain kernel,2,alloc,24.710,25.231
+go FAST (safe),2,alloc,13.280,13.448
+go FAST (unsafe),2,alloc,12.506,12.706
+go FAST x4 parts (unsafe),2,alloc,12.495,12.739
+go seq (user),2,prealloc,58.962,59.214
+go mergePath (user),2,prealloc,29.690,30.364
+go seq 2-chain kernel,2,prealloc,23.482,24.049
+go FAST (safe),2,prealloc,11.988,12.285
+go FAST (unsafe),2,prealloc,11.179,11.488
+go FAST x4 parts (unsafe),2,prealloc,11.433,11.699
+seq (user baseline),4,alloc,72.172,72.919
+seq 2-chain kernel,4,alloc,40.146,40.645
+malebolgia (user),4,alloc,20.450,22.544
+malebolgia + fast,4,alloc,11.148,12.681
+seq (user baseline),4,prealloc,55.370,56.060
+seq 2-chain kernel,4,prealloc,20.340,21.159
+malebolgia (user),4,prealloc,15.073,15.569
+malebolgia + fast,4,prealloc,5.857,6.106
+seq-branchy,4,alloc,55.080,56.272
+seq-2chain,4,alloc,21.355,21.903
+pool-branchy,4,alloc,15.755,16.379
+pool-fast,4,alloc,6.347,6.783
+pool-fast-x4,4,alloc,6.471,6.822
+seq-branchy,4,prealloc,55.105,56.348
+seq-2chain,4,prealloc,20.905,21.747
+pool-branchy,4,prealloc,15.977,16.494
+pool-fast,4,prealloc,6.318,6.760
+pool-fast-x4,4,prealloc,6.226,7.116
+go seq (user),4,alloc,65.287,66.547
+go mergePath (user),4,alloc,17.199,17.805
+go seq 2-chain kernel,4,alloc,24.764,25.259
+go FAST (safe),4,alloc,7.521,7.969
+go FAST (unsafe),4,alloc,7.249,7.639
+go FAST x4 parts (unsafe),4,alloc,7.101,7.626
+go seq (user),4,prealloc,58.995,60.635
+go mergePath (user),4,prealloc,16.311,16.631
+go seq 2-chain kernel,4,prealloc,22.864,23.767
+go FAST (safe),4,prealloc,6.346,6.539
+go FAST (unsafe),4,prealloc,5.996,6.162
+go FAST x4 parts (unsafe),4,prealloc,5.928,6.180
